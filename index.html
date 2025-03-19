@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby Girl Name Riddle</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #fdf0f5;
+            color: #5a4a66;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            background-image: linear-gradient(to bottom right, #fdf0f5, #f8e1ed);
+        }
+        .container {
+            max-width: 600px;
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 20px;
+        }
+        h1 {
+            color: #d86a9c;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-family: 'Palatino', serif;
+        }
+        .riddle {
+            font-size: 22px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            font-style: italic;
+            color: #6a4873;
+        }
+        .new-riddle-btn {
+            background-color: #d86a9c;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .new-riddle-btn:hover {
+            background-color: #c45a89;
+        }
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #9c5f8c;
+        }
+        .flowers {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        .flower {
+            position: absolute;
+            font-size: 40px;
+        }
+        .name-reveal {
+            color: #d86a9c;
+            margin-top: 30px;
+            font-size: 24px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .counter {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 12px;
+            color: #9c5f8c;
+        }
+    </style>
+</head>
+<body>
+    <div class="flowers" id="flowers"></div>
+    <div class="container">
+        <h1>A Little Riddle About Our Baby Girl</h1>
+        <div class="riddle" id="riddle">Loading a special clue about our little one...</div>
+        <button class="new-riddle-btn" onclick="generateRiddle()">Show Me Another Clue</button>
+        <div class="name-reveal" id="nameReveal"></div>
+    </div>
+    <div class="footer">
+        Join us for the naming ceremony to discover her beautiful name!
+    </div>
+    <div class="counter" id="counter"></div>
+
+    <script>
+        // Collection of riddles for each name
+        const riddlesByName = {
+            "Dhanvi": [
+                "I'm a gift as precious as gold, a name of wealth, as stories told. What am I?",
+                "With blessings of Lakshmi, I shine so bright, a name of fortune, pure and light. Guess my name!",
+                "A little sparkle, a little grace, my name means wealth in a warm embrace. What's my name?",
+                "My name begins with the fourth letter of the alphabet, a treasure of prosperity, don't you forget!",
+                "Six letters long, I stand for wealth, a name that brings good fortune and health.",
+                "Like a precious jewel in the crown, my name means 'wealth' of great renown.",
+                "I'm named after abundance and prosperity, a blessing from the divine is my identity.",
+                "My name holds the promise of riches so true, starting with 'D' and ending with 'i'.",
+                "First letter from 'Dream', last from 'Devi', wealth and prosperity define me.",
+                "Like rays of sunshine bringing fortune bright, my name means 'wealth' - can you guess it right?",
+                "I'm a treasure chest of blessings divine, my name means 'wealth' - oh so fine!",
+                "Prosperity dances in my name so sweet, with 'Dhan' at the start, I am complete.",
+                "If 'D' stands for diamonds and 'V' for victory, my name carries the meaning of prosperity.",
+                "I'm a little bundle of riches untold, my name means 'wealth' - precious like gold.",
+                "I bring the promise of fortune so fair, my name starts with 'D' - a treasure rare.",
+                "Inspired by Lakshmi, goddess of wealth, my name carries blessings of prosperity and health.",
+                "My name whispers of treasures divine, meaning 'wealth' in a melody so fine.",
+                "I'm a little miracle of fortune and grace, my name meaning 'wealth' is easy to trace.",
+                "With 'Dhan' meaning wealth, my name shines bright, a blessing of prosperity, pure delight.",
+                "I'm a sparkle of fortune in parents' eyes, my name means 'wealth' - such a prize!",
+                "My name speaks of riches beyond measure, starting with 'D' - a true treasure.",
+                "Lakshmi's blessing flows through my name, meaning 'wealth' of eternal fame.",
+                "I'm a gift of prosperity, sent from above, my name means 'wealth' - filled with love.",
+                "Like a chest of gold, shining bright, my name means 'wealth' - pure delight.",
+                "In Sanskrit tales of fortune and might, my name means 'wealth' - a guiding light.",
+                "My name carries riches of heart and soul, meaning 'wealth' that makes one whole.",
+                "I'm a lucky charm of prosperity divine, my name means 'wealth' - precious and fine.",
+                "Abundance flows through my name with grace, meaning 'wealth' in its embrace.",
+                "I'm a treasure trove of blessings true, my name means 'wealth' - a gift to you.",
+                "Prosperity dances in my name so sweet, six letters long and oh so neat.",
+                "I bring the promise of fortune and joy, my name means 'wealth' without alloy.",
+                "My name carries blessings of coins and gold, meaning 'wealth' as stories told.",
+                "I'm a little bundle of riches divine, my name means 'wealth' - a precious sign.",
+                "Like a fountain of fortune flowing free, my name means 'wealth' - don't you see?",
+                "In ancient Sanskrit, my name stands tall, meaning 'wealth' that blesses all.",
+                "I'm a treasure of prosperity, bright and clear, my name means 'wealth' - hold it dear.",
+                "My name whispers of riches untold, meaning 'wealth' - more precious than gold.",
+                "I carry the promise of fortune so rare, my name means 'wealth' beyond compare.",
+                "Inspired by abundance, my name shines bright, meaning 'wealth' - a pure delight.",
+                "I'm a sparkle of prosperity in parents' eyes, my name means 'wealth' - a divine prize.",
+                "My name speaks of treasures so fine, meaning 'wealth' - almost divine.",
+                "I'm a blessing of fortune, sent with love, my name means 'wealth' from above.",
+                "Like a chest of jewels, shining bright, my name means 'wealth' - a guiding light.",
+                "In tales of fortune and prosperity, my name means 'wealth' - don't you see?",
+                "I bring the promise of abundance and grace, my name means 'wealth' - easy to trace.",
+                "My name carries promises of silver and gold, meaning 'wealth' as days unfold.",
+                "I'm a little miracle of prosperity divine, my name means 'wealth' - oh so fine!",
+                "Like a fountain of blessings flowing free, my name means 'wealth' - meant to be.",
+                "I'm a treasure of fortune, bright and clear, my name means 'wealth' - hold it dear.",
+                "My name whispers of riches and grace, meaning 'wealth' - a divine embrace.",
+                "I carry the promise of prosperity so rare, my name means 'wealth' beyond compare.",
+                "Inspired by Lakshmi, goddess of fortune, my name means 'wealth' from moon to sun.",
+                "Take 'Dhan' meaning wealth, add 'vi' divine, my name's a treasure, sweet and fine.",
+                "I'm a sparkle of prosperity in this world so new, my name means 'wealth' - pure and true.",
+                "My name speaks of treasures beyond measure, meaning 'wealth' - a divine treasure.",
+                "I'm a blessing of fortune, wrapped in love, my name means 'wealth' from heaven above.",
+                "Like a chest of diamonds, shining bright, my name means 'wealth' - spreading light.",
+                "In tales of prosperity and fortune fair, my name means 'wealth' without compare.",
+                "I bring the promise of abundance and joy, my name means 'wealth' without alloy.",
+                "My name carries whispers of silver and gold, meaning 'wealth' as legends told.",
+                "I'm a little bundle of riches so true, my name means 'wealth' - a gift to you.",
+                "Like a river of fortune flowing free, my name means 'wealth' - don't you see?",
+                "In ancient wisdom, my name stands tall, meaning 'wealth' that blesses all.",
+                "I'm a treasure of prosperity, bright and pure, my name means 'wealth' - that's for sure.",
+                "My name whispers of riches divine, meaning 'wealth' - a precious sign.",
+                "I carry the promise of fortune so fair, my name means 'wealth' beyond compare.",
+                "Inspired by abundance, my name glows bright, meaning 'wealth' - a pure delight."
+            ],
+            "Ishvika": [
+                "From the divine, my name has come, with Goddess's grace, I am the one. Who am I?",
+                "My name begins with a letter so pure, blessed by the goddess, that's for sure. Can you guess?",
+                "Mystical and divine, my name does say, Goddess's blessing lights my way! What's my name?",
+                "I share my first letter with words like 'inspire' and 'illuminate', a divine gift, that's my fate!",
+                "Seven letters long, my name is divine, with goddess's blessing, I truly shine.",
+                "Like a little goddess, sent from above, my name is celestial, filled with love.",
+                "My name speaks of divinity so bright, with 'Ish' at the start - a guiding light.",
+                "I'm a little miracle with a name so rare, divine energy flows through me with care.",
+                "First letter from 'Idol', last from 'Ambrosia', a goddess's blessing defines me.",
+                "Like rays of divinity shining bright, my name is celestial - can you guess it right?",
+                "I'm a touch of heaven in my parents' arms, my name divine, with magical charms.",
+                "Divinity dances in my name so sweet, with 'Ish' at the start, I am complete.",
+                "If 'I' stands for immortal and 'V' for victory, my name carries the essence of divinity.",
+                "I'm a little bundle of divine light, my name celestial - a pure delight.",
+                "I bring the promise of divine grace, my name starts with 'I' - a treasure to embrace.",
+                "Inspired by the heavens, my name shines clear, meaning 'divine' - a blessing dear.",
+                "My name whispers of celestial realms, with goddess's blessing at the helm.",
+                "I'm a little miracle of divine grace, my name celestial - easy to trace.",
+                "With 'Ish' meaning divine, my name glows bright, a blessing from above, pure delight.",
+                "I'm a sparkle of divinity in parents' eyes, my name celestial - such a prize!",
+                "My name speaks of heavenly domains, starting with 'I' - divine remains.",
+                "Goddess's blessing flows through my name, meaning 'divine' of eternal fame.",
+                "I'm a gift of divinity, sent from above, my name celestial - filled with love.",
+                "Like a star from heaven, shining bright, my name is divine - pure delight.",
+                "In Sanskrit tales of gods and might, my name is celestial - a guiding light.",
+                "My name carries divinity of heart and soul, meaning 'goddess' that makes one whole.",
+                "I'm a charm of celestial grace divine, my name heavenly - precious and fine.",
+                "Divinity flows through my name with grace, a goddess's blessing in its embrace.",
+                "I'm a treasure of divine blessings true, my name celestial - a gift to you.",
+                "Goddess's grace dances in my name so sweet, seven letters long and oh so neat.",
+                "I bring the promise of divine joy, my name celestial without alloy.",
+                "My name carries blessings from the sky, meaning 'divine' as clouds float by.",
+                "I'm a little bundle of celestial light, my name divine - a precious sight.",
+                "Like a fountain of divinity flowing free, my name is celestial - don't you see?",
+                "In ancient Sanskrit, my name stands tall, meaning 'divine' that blesses all.",
+                "I'm a treasure of celestial grace, bright and clear, my name divine - hold it dear.",
+                "My name whispers of heavenly realms untold, meaning 'divine' - more precious than gold.",
+                "I carry the promise of goddess so rare, my name divine beyond compare.",
+                "Inspired by the heavens, my name shines bright, meaning 'celestial' - a pure delight.",
+                "I'm a sparkle of divinity in parents' eyes, my name divine - a celestial prize.",
+                "My name speaks of heavenly treasures so fine, meaning 'divine' - almost sublime.",
+                "I'm a blessing of divinity, sent with love, my name celestial from above.",
+                "Like a star from heaven, shining bright, my name is divine - a guiding light.",
+                "In tales of gods and goddesses free, my name is divine - don't you see?",
+                "I bring the promise of celestial grace, my name divine - easy to trace.",
+                "My name carries whispers of heavenly gold, meaning 'divine' as days unfold.",
+                "I'm a little miracle of celestial shine, my name divine - oh so fine!",
+                "Like a fountain of blessings flowing free, my name is divine - meant to be.",
+                "I'm a treasure of divinity, bright and clear, my name celestial - hold it dear.",
+                "My name whispers of heavenly grace, meaning 'divine' - a celestial embrace.",
+                "I carry the promise of goddess so rare, my name divine beyond compare.",
+                "Inspired by the heavens above, my name is divine - filled with love.",
+                "Take 'Ish' meaning divine, add 'vika' so fine, my name's a treasure, almost divine.",
+                "I'm a sparkle of divinity in this world so new, my name celestial - pure and true.",
+                "My name speaks of heavenly realms beyond measure, meaning 'divine' - a celestial treasure.",
+                "I'm a blessing of divinity, wrapped in love, my name celestial from heaven above.",
+                "Like a star from paradise, shining bright, my name is divine - spreading light.",
+                "In tales of gods and goddesses fair, my name is divine without compare.",
+                "I bring the promise of celestial joy, my name divine without alloy.",
+                "My name carries whispers of heavenly gold, meaning 'divine' as legends told.",
+                "I'm a little bundle of celestial light so true, my name divine - a gift to you.",
+                "Like a river of divinity flowing free, my name is celestial - don't you see?",
+                "In ancient wisdom, my name stands tall, meaning 'divine' that blesses all.",
+                "I'm a treasure of celestial grace, bright and pure, my name divine - that's for sure.",
+                "My name whispers of heavenly shine, meaning 'divine' - a precious sign.",
+                "I carry the promise of goddess so fair, my name celestial beyond compare.",
+                "Inspired by the heavens, my name glows bright, meaning 'divine' - a pure delight."
+            ],
+            "Sharvika": [
+                "A goddess, a strength, a power so rare, my name is divine, with love and care. Guess who I am!",
+                "With divine energy, I take my stand, a name of a goddess, strong and grand. What's my name?",
+                "I carry grace and strength divine, a goddess's blessing is truly mine. What am I called?",
+                "My name begins with the sound of 'shine', a goddess's power, forever mine!",
+                "Eight letters long, I stand for might, a name that brings divine delight.",
+                "Like a goddess of strength, I stand tall, my name means 'divine power' - that's not all.",
+                "I'm named after strength and divine grace, a blessing from Shakti in every place.",
+                "My name holds the power of goddesses true, starting with 'Sh' and ending with 'a'.",
+                "First letter from 'Shakti', last from 'Deva', divine strength defines me, believe-a!",
+                "Like rays of power shining bright, my name means 'strength' - can you guess it right?",
+                "I'm a treasure chest of divine might, my name means 'strength' - oh so right!",
+                "Divine power dances in my name so sweet, with 'Shar' at the start, I am complete.",
+                "If 'S' stands for strength and 'V' for victory, my name carries the essence of divinity.",
+                "I'm a little bundle of power untold, my name means 'strength' - precious like gold.",
+                "I bring the promise of divine grace, my name starts with 'Sh' - a treasure to embrace.",
+                "Inspired by Shakti, goddess of might, my name carries blessings of divine light.",
+                "My name whispers of powerful realms divine, meaning 'strength' in a melody so fine.",
+                "I'm a little miracle of power and grace, my name meaning 'strength' is easy to trace.",
+                "With 'Shar' evoking divine power, my name shines bright, a blessing of strength, pure delight.",
+                "I'm a sparkle of power in parents' eyes, my name means 'strength' - such a prize!",
+                "My name speaks of divine might beyond measure, starting with 'Sh' - a true treasure.",
+                "Shakti's blessing flows through my name, meaning 'strength' of eternal fame.",
+                "I'm a gift of divine power, sent from above, my name means 'strength' - filled with love.",
+                "Like a force of nature, shining bright, my name means 'strength' - pure delight.",
+                "In Sanskrit tales of power and might, my name means 'strength' - a guiding light.",
+                "My name carries might of heart and soul, meaning 'strength' that makes one whole.",
+                "I'm a charm of power divine, my name means 'strength' - precious and fine.",
+                "Divine power flows through my name with grace, meaning 'strength' in its embrace.",
+                "I'm a treasure of powerful blessings true, my name means 'strength' - a gift to you.",
+                "Divine might dances in my name so sweet, eight letters long and oh so neat.",
+                "I bring the promise of power and joy, my name means 'strength' without alloy.",
+                "My name carries blessings of divine might, meaning 'strength' as stories told.",
+                "I'm a little bundle of power divine, my name means 'strength' - a precious sign.",
+                "Like a fountain of divine power flowing free, my name means 'strength' - don't you see?",
+                "In ancient Sanskrit, my name stands tall, meaning 'divine power' that blesses all.",
+                "I'm a treasure of strength, bright and clear, my name means 'power' - hold it dear.",
+                "My name whispers of divine might untold, meaning 'strength' - more precious than gold.",
+                "I carry the promise of goddess so rare, my name means 'strength' beyond compare.",
+                "Inspired by Shakti, my name shines bright, meaning 'divine power' - a pure delight.",
+                "I'm a sparkle of divine strength in parents' eyes, my name means 'power' - a divine prize.",
+                "My name speaks of powerful treasures so fine, meaning 'strength' - almost divine.",
+                "I'm a blessing of divine might, sent with love, my name means 'strength' from above.",
+                "Like a force of nature, shining bright, my name means 'power' - a guiding light.",
+                "In tales of goddesses and divine might, my name means 'strength' - don't you see?",
+                "I bring the promise of divine power and grace, my name means 'strength' - easy to trace.",
+                "My name carries whispers of divine might, meaning 'strength' as days unfold.",
+                "I'm a little miracle of power divine, my name means 'strength' - oh so fine!",
+                "Like a fountain of divine blessings flowing free, my name means 'power' - meant to be.",
+                "I'm a treasure of divine strength, bright and clear, my name means 'power' - hold it dear.",
+                "My name whispers of divine might and grace, meaning 'strength' - a divine embrace.",
+                "I carry the promise of goddess so rare, my name means 'strength' beyond compare.",
+                "Inspired by Shakti, goddess of might, my name means 'power' from moon to sun.",
+                "Take 'Shar' meaning divine, add 'vika' so fine, my name's a treasure of strength divine.",
+                "I'm a sparkle of divine power in this world so new, my name means 'strength' - pure and true.",
+                "My name speaks of powerful realms beyond measure, meaning 'divine strength' - a treasure.",
+                "I'm a blessing of divine might, wrapped in love, my name means 'strength' from heaven above.",
+                "Like a force of nature, shining bright, my name means 'power' - spreading light.",
+                "In tales of goddesses and divine might, my name means 'strength' without compare.",
+                "I bring the promise of divine power and joy, my name means 'strength' without alloy.",
+                "My name carries whispers of divine might, meaning 'power' as legends told.",
+                "I'm a little bundle of divine strength so true, my name means 'power' - a gift to you.",
+                "Like a river of divine might flowing free, my name means 'strength' - don't you see?",
+                "In ancient wisdom, my name stands tall, meaning 'divine power' that blesses all.",
+                "I'm a treasure of divine strength, bright and pure, my name means 'power' - that's for sure.",
+                "My name whispers of divine might, meaning 'strength' - a precious sign.",
+                "I carry the promise of goddess so fair, my name means 'power' beyond compare.",
+                "Inspired by Shakti, my name glows bright, meaning 'divine strength' - a pure delight."
+            ]
+        };
+
+        // Tracking which riddles have been shown
+        let shownRiddles = [];
+        let totalRiddlesShown = 0;
+
+        // Function to generate a random riddle
+        function generateRiddle() {
+            // Choose a random name
+            const names = Object.keys(riddlesByName);
+            const randomNameIndex = Math.floor(Math.random() * names.length);
+            const selectedName = names[randomNameIndex];
+            
+            // Get riddles for the selected name
+            const riddles = riddlesByName[selectedName];
+            
+            // Choose a random riddle that hasn't been shown yet
+            let availableRiddles = riddles.filter(riddle => !shownRiddles.includes(riddle));
+            
+            // If all riddles have been shown, reset the tracking
+            if (availableRiddles.length === 0) {
+                shownRiddles = [];
+                availableRiddles = riddles;
+            }
+            
+            const randomRiddleIndex = Math.floor(Math.random() * availableRiddles.length);
+            const selectedRiddle = availableRiddles[randomRiddleIndex];
+            
+            // Track that this riddle has been shown
+            shownRiddles.push(selectedRiddle);
+            totalRiddlesShown++;
+            
+            // Update the display
+            document.getElementById('riddle').textContent = selectedRiddle;
+            document.getElementById('counter').textContent = `Riddles shown: ${totalRiddlesShown}`;
+            
+            // Easter egg: After showing 10 riddles, briefly reveal the name
+            if (totalRiddlesShown % 10 === 0) {
+                const nameReveal = document.getElementById('nameReveal');
+                nameReveal.textContent = `This riddle is about: ${selectedName}`;
+                nameReveal.style.opacity = '1';
+                
+                setTimeout(() => {
+                    nameReveal.style.opacity = '0';
+                }, 2000);
+            }
+        }
+
+        // Create decorative flowers in the background
+        function createFlowers() {
+            const flowerContainer = document.getElementById('flowers');
+            const flowerSymbols = ['✿', '❀', '❁', '✾', '✽', '❃', '🌸', '🌺', '🌼'];
+            const numFlowers = 25;
+            
+            for(let i = 0; i < numFlowers; i++) {
+                const flower = document.createElement('div');
+                flower.className = 'flower';
+                flower.textContent = flowerSymbols[Math.floor(Math.random() * flowerSymbols.length)];
+                flower.style.left = `${Math.random() * 100}%`;
+                flower.style.top = `${Math.random() * 100}%`;
+                flower.style.color = `hsl(${Math.random() * 60 + 300}, 70%, 80%)`;
+                flower.style.transform = `rotate(${Math.random() * 360}deg)`;
+                flowerContainer.appendChild(flower);
+            }
+        }
+
+        // Initialize the page
+        window.onload = function() {
+            generateRiddle();
+            createFlowers();
+        };
+    </script>
+</body>
+</html>
